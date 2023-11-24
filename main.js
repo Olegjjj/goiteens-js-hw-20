@@ -1,32 +1,47 @@
 const images = document.querySelectorAll(".image");
 const fullImageContainer = document.querySelector(".full-image-container");
+const fullImage = document.querySelector(".full-image");
+
+let currentIndex = 0;
 
 images.forEach((image, index) => {
   image.addEventListener("click", () => {
-    showFullImage(index);
+    currentIndex = index;
+    showFullImage();
   });
 });
 
 document.addEventListener("keydown", (e) => {
-  if (e.key === "ArrowLeft") {
-    showPreviousImage();
-  } 
-  else if (e.key === "ArrowRight") {
-    showNextImage();
+  if (fullImageContainer.style.display === "flex") {
+    if (e.key === "ArrowLeft") {
+      showPreviousImage();
+    } else if (e.key === "ArrowRight") {
+      showNextImage();
+    } else if (e.key === "Escape") {
+      hideFullImage();
+    }
   }
 });
 
 function showFullImage() {
+  fullImage.src = images[currentIndex].src;
   fullImageContainer.style.display = "flex";
 }
 
-function showPreviousImage(index) {
-    index = (index - 1 + images.length) % images.length;
+function showPreviousImage() {
+  currentIndex = (currentIndex - 1 + images.length) % images.length;
+  fullImage.src = images[currentIndex].src;
 }
 
-function showNextImage(index) {
-    index = (index + 1) % images.length;
+function showNextImage() {
+  currentIndex = (currentIndex + 1) % images.length;
+  fullImage.src = images[currentIndex].src;
 }
+
+function hideFullImage() {
+  fullImageContainer.style.display = "none";
+}
+
 //   2
 function createBoxes() {
 const amount = document.getElementById('boxNumber').value;
